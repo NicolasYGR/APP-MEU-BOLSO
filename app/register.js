@@ -5,12 +5,13 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 
 import { useRouter } from 'expo-router';
 import AppButton from '../src/components/AppButton';
 import AppInput from '../src/components/AppInput';
+import { signUp } from '../src/Services/authService';
 
 export default function Register() {
 
@@ -20,6 +21,29 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    async function handleRegister(){
+        if(!email.trim() || !password.trim() || !confirm.trim())
+            return Alert.alert('Atenção', 'Preencha todos os campos'),
+            console.log('Preencha todos os campos');
+        if(password.length < 6)
+            return Alert.alert('Atenção', 'A senha conter no mínimo 6 caracteres');
+        if(password!==confirm)
+            return Alert.alert('Atenção', 'As senhas não conferem');
+    try {
+    setLoading(true);
+    const { error } = await signUp(email.trim(), password.trim());
+    
+    if (error) {
+        Alert.alert('Erro cadastro', error.message);
+        console.log('Erro no cadastro', error.message);
+        return;
+    } else {
+        Alert.alert('Sucesso!', 'Conta criada com sucesso faça login para continuar.'),
+        router.replace('/');
+    }
+} finally {
+    setLoading(false);
+}
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -60,7 +84,7 @@ export default function Register() {
                     onChangeText={setConfirmPassword}
                 />
 
-                <AppButton title="Criar conta" />
+                <AppButton title="Criar conta" loading={loading} onPress={handleRegister}/>
 
                 <TouchableOpacity
                     onPress={() => router.push('/')}
@@ -124,4 +148,4 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 15
     }
-});
+})}
