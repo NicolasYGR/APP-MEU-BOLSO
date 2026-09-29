@@ -7,11 +7,13 @@ import {
     View,
     TouchableOpacity,
     Platform,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Alert
 } from 'react-native';
 
 import AppInput from '../src/components/AppInput';
 import AppButton from '../src/components/AppButton';
+import { signIn } from '../src/Services/authService';
 
 export default function Login() {
 
@@ -20,6 +22,26 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+
+    async function handleLogin() {
+        if(!email.trim() || !password.trim()){
+            Alert.alert('Atenção', 'Informe seu e-mail e senha'),
+            console.log('Atenção', 'Informe seu e-mail e senha');
+            return;
+        }
+        try {
+            setLoading(true);
+            const {error}= await signIn(email.trim(), password.trim());
+            if(error){
+                Alert.alert('Erro', error.message);
+                console.log('Erro', error.message);
+                return;
+            }
+            router.replace('/(app)/home');
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -53,7 +75,7 @@ export default function Login() {
                     onChangeText={setPassword}
                 />
 
-                <AppButton title="Entrar" />
+                <AppButton title="Entrar" loading={loading} onPress={handleLogin}/>
 
                 <TouchableOpacity
                     onPress={() => router.push('/register')}

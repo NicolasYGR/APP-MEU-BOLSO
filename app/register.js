@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import {
+    Alert,
     KeyboardAvoidingView,
     Platform,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 
 import { useRouter } from 'expo-router';
@@ -20,30 +21,33 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    async function handleRegister(){
-        if(!email.trim() || !password.trim() || !confirm.trim())
-            return Alert.alert('Atenção', 'Preencha todos os campos'),
-            console.log('Preencha todos os campos');
+    async function handleRegister() {
+        if(!email.trim() || !password.trim() || !confirmPassword.trim())
+            return Alert.alert('Atenção','Preencha todos os campos');
         if(password.length < 6)
-            return Alert.alert('Atenção', 'A senha conter no mínimo 6 caracteres');
-        if(password!==confirm)
-            return Alert.alert('Atenção', 'As senhas não conferem');
-    try {
-    setLoading(true);
-    const { error } = await signUp(email.trim(), password.trim());
-    
-    if (error) {
-        Alert.alert('Erro cadastro', error.message);
-        console.log('Erro no cadastro', error.message);
-        return;
-    } else {
-        Alert.alert('Sucesso!', 'Conta criada com sucesso faça login para continuar.'),
-        router.replace('/');
+            return Alert.alert('Atenção','A senha deve ter no minimo 6 caracteres');
+        if(password!==confirmPassword)
+            return Alert.alert('Atenção','As senhas não conferem');
+
+        try{
+            setLoading(true);
+            const {error} = await signUp(email.trim(), password.trim());
+            if(error){
+                Alert.alert('Erro no cadastro', error.message);
+                console.log('Erro no cadastro', error.message);
+                return;
+            }
+            else {
+                Alert.alert('Sucesso!', 'Conta criado com sucesso, Faça o login para continuar.'),
+                router.replace('/');
+            }
+        }finally{
+            setLoading(false);
+        }
     }
-} finally {
-    setLoading(false);
-}
+
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -52,11 +56,11 @@ export default function Register() {
             <View style={styles.card}>
 
                 <Text style={styles.title}>
-                    MEU BOLSO - Criar conta
+                    Criar conta
                 </Text>
 
                 <Text style={styles.subtitle}>
-                    Crie sua conta
+                    Crie sua conta no Meu Bolso.
                 </Text>
 
                 <AppInput
@@ -84,7 +88,11 @@ export default function Register() {
                     onChangeText={setConfirmPassword}
                 />
 
-                <AppButton title="Criar conta" loading={loading} onPress={handleRegister}/>
+                <AppButton 
+                   title="Criar conta"
+                   loading={loading}
+                   onPress={handleRegister}
+                />
 
                 <TouchableOpacity
                     onPress={() => router.push('/')}
@@ -148,4 +156,4 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 15
     }
-})}
+});
