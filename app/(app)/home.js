@@ -3,21 +3,22 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Home() {
     return (
         <View style={styles.container}>
-            <View style={styles.card}>
-
+            <View style={styles.header}>
                 <Text style={styles.title}>
                     Meu Bolso
                 </Text>
-
                 <Text style={styles.subtitle}>
-                    Bem-vindo ao seu controle financeiro!
+                    Resumo Financeiro
                 </Text>
+                <TouchbleOpacity>
+                    <Text>
+                        Perfil
+                    </Text>
+                </TouchbleOpacity>
 
-                <Text style={styles.text}>
-                    Aqui você poderá acompanhar suas finanças,
-                    organizar seus gastos e cuidar melhor do seu dinheiro.
-                </Text>
 
+                <AppButton 
+                title="Gerar Relatório PDF"/>  
             </View>
         </View>
     );
