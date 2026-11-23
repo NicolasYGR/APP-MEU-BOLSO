@@ -13,9 +13,10 @@ export default function RootLayout() {
                 options={{ title: 'Criar Conta' }}
             />
             <Stack.Screen
-            name="home"
-            options={{headerShown:false}}/>
-            
+                name="(app)"
+                options={{ headerShown:false }}
+            />
+
         </Stack>
     );
 }

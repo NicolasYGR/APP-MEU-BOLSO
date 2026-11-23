@@ -1,4 +1,4 @@
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 export default function AppCard({children, style}) {
     return(
@@ -8,8 +8,8 @@ export default function AppCard({children, style}) {
 
 const styles = StyleSheet.create({
     card:{
-        backgroundColor:'#fff',
+        backgroundColor: '#fff',
         borderRadius: 16,
         marginBottom: 16
     }
-});
+})

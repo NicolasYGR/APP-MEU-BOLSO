@@ -1,71 +1,77 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
+import BalanceCard from '../../src/components/BalanceCard';
+import AppButton from '../../src/components/AppButton';
 
 export default function Home() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+            <View>
                 <Text style={styles.title}>
                     Meu Bolso
                 </Text>
-                <Text style={styles.subtitle}>
-                    Resumo Financeiro
+
+                <Text style={styles.sub}>
+                    Resumo financeiro
                 </Text>
-                <TouchbleOpacity>
-                    <Text>
+            </View>
+                <Text style={styles.text}>
+                    Bem-vindo ao seu controle financeiro!
+                    Aqui você poderá acompanhar suas finanças,
+                    organizar seus gastos e cuidar melhor do seu dinheiro.
+                </Text>
+
+                <TouchableOpacity style={styles.profileButton}>
+                    <Text style={styles.profileButtonText}>
                         Perfil
                     </Text>
-                </TouchbleOpacity>
-
-
-                <AppButton 
-                title="Gerar Relatório PDF"/>  
+                </TouchableOpacity>
             </View>
+
+            <BalanceCard balance={5000}/>
+
+                <AppButton title="Gerar relatório PDF" />
+
+                <View style={styles.row}>
+
+                </View>
+            
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
-        justifyContent: 'center',
+        paddingTop: '60',
         padding: 24,
-        backgroundColor: '#eef7f4',
+        backgroundColor: '#f8f8f8'
+        
     },
 
-    card: {
-        width: '100%',
-        maxWidth: 420,
-        alignSelf: 'center',
-        backgroundColor: '#ffffff',
-        padding: 30,
-        borderRadius: 24,
-
-        elevation: 6,
-
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.12,
-        shadowRadius: 10,
+    header: {
+       flexDirection:'row',
+       justifyContent:'space-between',
+       alignItems:'center',
+       paddingVertical:16
     },
 
     title: {
-        fontSize: 36,
+        fontSize: 26,
         fontWeight: '900',
-        color: '#008f72',
+        color: '#2f3640',
         textAlign: 'center',
-        marginBottom: 8,
+        
     },
 
-    subtitle: {
+    sub: {
         color: '#7f8c8d',
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: '700',
-        marginBottom: 20,
+    },
+ 
+    row: {
+      flexDirection: 'row',
+      marginHorizontal: -4
     },
 
     text: {
@@ -73,9 +79,20 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
         lineHeight: 23,
+        marginBottom: 24,
     },
 
+    profileButton: {
+        backgroundColor: '#e5f5ef',
+        paddingVertical: 12,
+        borderRadius: 12,
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+
+    profileButtonText: {
+        color: '#008f72',
+        fontSize: 16,
+        fontWeight: '700',
+    },
 });
-
-
-
